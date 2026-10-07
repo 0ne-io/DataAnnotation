@@ -1,0 +1,45 @@
+{
+  "user_id": 704848,
+  "display_name": "EdChum",
+  "attribution": "Style derived from public Stack Overflow posts (CC BY-SA).",
+  "features": {
+    "n_answers": 71,
+    "avg_chars": 786.5,
+    "avg_sentences": 2.46,
+    "avg_words_per_sentence": 42.45,
+    "hedge_rate": 0.014,
+    "direct_opener_rate": 0.268,
+    "code_answer_rate": 1.0,
+    "top_words": [
+      "this",
+      "index",
+      "your",
+      "that",
+      "values",
+      "then",
+      "dtype",
+      "column",
+      "columns",
+      "series",
+      "will",
+      "array",
+      "datetime",
+      "data",
+      "just"
+    ]
+  },
+  "style_rules": [
+    "Write like a helpful Stack Overflow answer: direct, practical, and respectful.",
+    "Do not mention Stack Overflow or that you are mimicking someone.",
+    "Do not copy phrases verbatim from examples; match rhythm and structure only.",
+    "Follow the global prose rules in the base prompt (130-char sentences, no semicolons/em-dashes, contractions, lumpy rhythm).",
+    "Use short code or `inline code` when it clarifies the fix.",
+    "Use mixed sentence length; explain the why briefly when useful.",
+    "Open with actionable guidance (You can…, Try…, Use…)."
+  ],
+  "exemplars": [
+    "IIUC you can format the xticks and set these:\n\n```\nIn[60]:\n#generate some psuedo data\ndf = pd.DataFrame({'num':[50000, 75000, 100000, 125000], 'Rent/Sqft':np.random.randn(4), 'Region':list('abcd')})\ndf\n\nOut[60]:\n      num  Rent/Sqft Region\n0   50000   0.109196      a\n1   75000   0.566553      b\n2  100000  -0.274064      c\n3  125000  -0.636492      d\n\nIn[61]:\nimport matplotlib.pyplot as plt\nimport matplotlib.ticker as ticker\nimport seaborn as sns\nimport pandas as pd\nsns.set(style=\"darkgrid\")\nfig, ax = plt.subplots(figsize=(8, 5))\npalette = sns.color_palette(\"bright\", 4)\ng = sns.scatterplot(ax=ax, x=\"num\", y=\"Rent/Sqft\", hue=\"Region\", marker='o', data=df, s=100, palette= palette)\ng.legend(bbox…",
+    "A better alternative to `!locks` is to use `!cs -s -l -o` see `!cs` this will display all locked critical sections, the owner stack trace and the critical section stack trace, you can omit the `-l` if you want all critical sections. You may need to enable the user mode stack trace using `gflags` `!gflag +ust` remember to remove it when it isn't needed `!glag -ust`.\n\nTo display critical section info, you can do this if you have the address: \n\nso `!critsec ADDRESS` or using display type command `dt` `dt RTL_CRITICAL_SECTION ADDRESS` will work if you have the address.",
+    "IIUC you can just do:\n\n```\nDF4['latitude'] = deg_to_rad(DF4['latitude'])\nDF4['longitude'] = deg_to_rad(DF4['longitude'])\n\n```\n\nYou're not assigning back the result of your function\n\nyou take a reference here:\n\n```\nDEG_TO_RAD_ATTEMPT_LATITUDE = DF4['latitude']\n\n```\n\nyou then pass it to your function which will return the result but this isn't being assigned to anything, nor is it modifying the passed in column\n\nAlso you can use `np.deg2rad` to achieve the same:\n\n```\nimport numpy as np\n\nDF4['latitude'] = np.deg2rad(DF4['latitude'])\nDF4['longitude'] = np.deg2rad(DF4['longitude'])\n\n```"
+  ]
+}

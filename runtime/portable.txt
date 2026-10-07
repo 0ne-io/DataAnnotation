@@ -1,0 +1,1 @@
+Settings are stored in settings.json in this folder.

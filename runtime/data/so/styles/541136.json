@@ -1,0 +1,44 @@
+{
+  "user_id": 541136,
+  "display_name": "Aaron Hall",
+  "attribution": "Style derived from public Stack Overflow posts (CC BY-SA).",
+  "features": {
+    "n_answers": 69,
+    "avg_chars": 2866.4,
+    "avg_sentences": 14.72,
+    "avg_words_per_sentence": 29.56,
+    "hedge_rate": 0.493,
+    "direct_opener_rate": 0.014,
+    "code_answer_rate": 1.0,
+    "top_words": [
+      "that",
+      "this",
+      "list",
+      "python",
+      "class",
+      "self",
+      "with",
+      "from",
+      "object",
+      "type",
+      "path",
+      "return",
+      "function",
+      "import",
+      "none"
+    ]
+  },
+  "style_rules": [
+    "Write like a helpful Stack Overflow answer: direct, practical, and respectful.",
+    "Do not mention Stack Overflow or that you are mimicking someone.",
+    "Do not copy phrases verbatim from examples; match rhythm and structure only.",
+    "Follow the global prose rules in the base prompt (130-char sentences, no semicolons/em-dashes, contractions, lumpy rhythm).",
+    "Use short code or `inline code` when it clarifies the fix.",
+    "Use mixed sentence length; explain the why briefly when useful."
+  ],
+  "exemplars": [
+    "What's the purpose of enums? What value do they create for the language? When should I use them and when should I avoid them?\n\nThe Enum type got into Python via PEP 435. The reasoning given is:\n\nThe properties of an enumeration are useful for defining an immutable, related set of constant values that may or may not have a semantic meaning.\n\nWhen using numbers and strings for this purpose, they could be characterized as \"magic numbers\" or \"magic strings\". Numbers rarely carry with them the semantics, and strings are easily confused (capitalization? spelling? snake or camel-case?)\n\nDays of the week and school letter grades are examples of this kind of collections of values.\n\nHere's an example …",
+    "Linux: Remove redundant paths from $PATH variable\n\nLinux From Scratch has this function in /etc/profile\n\n```\n# Functions to help us manage paths.  Second argument is the name of the\n# path variable to be modified (default: PATH)\npathremove () {\n        local IFS=':'\n        local NEWPATH\n        local DIR\n        local PATHVARIABLE=${2:-PATH}\n        for DIR in ${!PATHVARIABLE} ; do\n                if [ \"$DIR\" != \"$1\" ] ; then\n                  NEWPATH=${NEWPATH:+$NEWPATH:}$DIR\n                fi\n        done\n        export $PATHVARIABLE=\"$NEWPATH\"\n}\n\n```\n\nThis is intended to be used with these functions for adding to the path, so that you don't do it redundantly:\n\n```\npathprepend () {\n     …",
+    "A python class that acts like `dict`\n\nWhat's wrong with this?\n\nCan anyone point out why most of the inheritance snippets look like the one below?\n\n```\nclass CustomDictOne(dict):\n   def __init__(self):\n      self._mydict = {}\n\n```\n\nPresumably there's a good reason to inherit from dict (maybe you're already passing one around and you want a more specific kind of dict) and you have a good reason to instantiate another dict to delegate to (because this will instantiate two dicts per instance of this class.) But doesn't that sound incorrect?\n\nI never run into this use-case myself. I do like the idea of typing dicts where you are using dicts that are type-able. But in that case I like the idea of …"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "user_id": 771848,
+  "display_name": "alecxe",
+  "attribution": "Style derived from public Stack Overflow posts (CC BY-SA).",
+  "features": {
+    "n_answers": 62,
+    "avg_chars": 769.6,
+    "avg_sentences": 2.34,
+    "avg_words_per_sentence": 48.34,
+    "hedge_rate": 0.097,
+    "direct_opener_rate": 0.129,
+    "code_answer_rate": 1.0,
+    "top_words": [
+      "element",
+      "find",
+      "text",
+      "with",
+      "from",
+      "this",
+      "import",
+      "class",
+      "table",
+      "that",
+      "price",
+      "selector",
+      "driver",
+      "print",
+      "data"
+    ]
+  },
+  "style_rules": [
+    "Write like a helpful Stack Overflow answer: direct, practical, and respectful.",
+    "Do not mention Stack Overflow or that you are mimicking someone.",
+    "Do not copy phrases verbatim from examples; match rhythm and structure only.",
+    "Follow the global prose rules in the base prompt (130-char sentences, no semicolons/em-dashes, contractions, lumpy rhythm).",
+    "Use short code or `inline code` when it clarifies the fix.",
+    "Use mixed sentence length; explain the why briefly when useful."
+  ],
+  "exemplars": [
+    "I had the same error after brew decided to upgrade my `postgresql` package to version 14 (your version may vary).\n\nThere was this part of the error message:\n\n```\nLibrary not loaded: '/usr/local/opt/postgresql/lib/libpq.5.dylib'\n...\nReason: tried: '/usr/local/opt/postgresql/lib/libpq.5.dylib' (no such file)\n\n```\n\nI basically found the new location of the `libpq` and symlinked it to the location where `psycopg2` was looking for it:\n\n```\nln -s /usr/local/lib/postgresql@14/libpq.5.14.dylib /usr/local/opt/postgresql/lib/libpq.5.dylib\n\n```\n\nHope that helps anyone else with a similar issue.",
+    "pytest thinks `postgres` is a fixture and fails looking for it.\n\nInstead of having `postgres` passed in as an argument, you could set is as an instance field:\n\n```\ndef setUp(self):\n    postgres_image = fetch(repository=\"postgres:11.1-alpine\")\n    self.postgres = container(...)\n\ndef test_postgres_operator(self, mocker):\n    # use self.postgres instead of postgres\n\n```\n\nOr, you could define `postgres` as a proper pytest fixture to promote better reusability.\n\nAlternatively, you could look into `pytest-postgresql` plugin which may make it easier to mock out and test postgresql related code.",
+    "Alternatively, to keep things more or less generic and simple, you can split out handling of fields with labels and the manufacturer website link:\n\n```\nsoup = BeautifulSoup(car, 'lxml')\n\ncar_info = soup.select_one('.info')\ndata = {\n    label.get_text(strip=True): label.find_next_sibling().get_text(strip=True)\n    for label in car_info.select('.infoEntity label')\n}\ndata['manufacturer website'] = car_info.select_one('.infoEntity a').get_text(strip=True)\n\nprint(data)\n\n```\n\nPrints:\n\n```\n{'Headquarters': 'Dearbord, MI',\n 'Model': 'Mustang',\n 'manufacturer website': 'www.ford.com'}\n\n```"
+  ]
+}

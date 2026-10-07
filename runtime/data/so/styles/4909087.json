@@ -1,0 +1,44 @@
+{
+  "user_id": 4909087,
+  "display_name": "coldspeed95",
+  "attribution": "Style derived from public Stack Overflow posts (CC BY-SA).",
+  "features": {
+    "n_answers": 62,
+    "avg_chars": 852.2,
+    "avg_sentences": 3.31,
+    "avg_words_per_sentence": 32.47,
+    "hedge_rate": 0.097,
+    "direct_opener_rate": 0.097,
+    "code_answer_rate": 1.0,
+    "top_words": [
+      "index",
+      "this",
+      "list",
+      "columns",
+      "that",
+      "dataframe",
+      "groupby",
+      "with",
+      "your",
+      "append",
+      "true",
+      "using",
+      "result",
+      "then",
+      "level"
+    ]
+  },
+  "style_rules": [
+    "Write like a helpful Stack Overflow answer: direct, practical, and respectful.",
+    "Do not mention Stack Overflow or that you are mimicking someone.",
+    "Do not copy phrases verbatim from examples; match rhythm and structure only.",
+    "Follow the global prose rules in the base prompt (130-char sentences, no semicolons/em-dashes, contractions, lumpy rhythm).",
+    "Use short code or `inline code` when it clarifies the fix.",
+    "Use mixed sentence length; explain the why briefly when useful."
+  ],
+  "exemplars": [
+    "Why am I getting \"AttributeError: 'DataFrame' object has no attribute 'append'?\n\npandas >= 2.0 `append` has been removed, use `pd.concat` instead1\n\nStarting from pandas 2.0, `append` has been removed from the API. It was previously deprecated in version 1.4. See the docs on Deprecations as well as this github issue that originally proposed its deprecation.\n\nThe rationale for its removal was to discourage iteratively growing DataFrames in a loop (which is what people typically use append for). This is because append makes a new copy at each stage, resulting in quadratic complexity in memory.\n\n1. This assume you're appending one DataFrame to another. If you're appending a row to a DataFrame, t…",
+    "Do you really need df2? I feel like you could just construct `df2` from `df1` using `pd.get_dummies` on a categorical column. Try this:\n\n```\ndf['months'] = pd.Categorical(\n    df['months'], categories=range(50), ordered=True)\n\ndf2 = (pd.get_dummies(df.set_index('id')['months'], dtype=np.int8)\n         .add_prefix('M'))\n\n```\n\n```\ndf2.shape\n# (5, 50)\n\ndf2.loc[:, 'M22':'M27']\n\n             M22  M23  M24  M25  M26  M27\nid\n71911200001    1    0    0    0    0    0\n71911200002    0    0    0    0    0    1\n71911200004    0    0    0    0    0    0\n71911200003    0    1    0    0    0    0\n41911200003    0    0    0    0    0    0\n\n```\n\n`df2` is now a DataFrame of one hot encodings. Every category …",
+    "If the structure is consistent, it would be enough to unpack each \"Parcel\" inside a list comprehension\n\n```\npd.DataFrame([result['Parcel'] for result in results])\n\n          AIN       Longitude       Latitude\n0  2004001003  -118.620668807  34.2202197879\n1  2004001004  -118.620668303  34.2200390973\n\n```\n\nThe output of the list comprehension is a list of records of the format\n\n```\n[{'AIN': '2004001003',\n  'Longitude': '-118.620668807',\n  'Latitude': '34.2202197879'},\n {'AIN': '2004001004',\n  'Longitude': '-118.620668303',\n  'Latitude': '34.2200390973'}]\n\n```\n\nwhich `pd.DataFrame` can work with.\n\nBy the way ... never grow a dataframe. Using `pd.concat` in a loop is quadratic space complexity."
+  ]
+}

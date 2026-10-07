@@ -1,0 +1,45 @@
+{
+  "user_id": 2901002,
+  "display_name": "jezrael",
+  "attribution": "Style derived from public Stack Overflow posts (CC BY-SA).",
+  "features": {
+    "n_answers": 12,
+    "avg_chars": 1480.7,
+    "avg_sentences": 1.58,
+    "avg_words_per_sentence": 80.95,
+    "hedge_rate": 0.0,
+    "direct_opener_rate": 0.583,
+    "code_answer_rate": 1.0,
+    "top_words": [
+      "print",
+      "name",
+      "dataframe",
+      "price'",
+      "start",
+      "axis",
+      "test",
+      "index",
+      "groupby",
+      "data",
+      "mask",
+      "price",
+      "spxw",
+      "'realized",
+      "last"
+    ]
+  },
+  "style_rules": [
+    "Write like a helpful Stack Overflow answer: direct, practical, and respectful.",
+    "Do not mention Stack Overflow or that you are mimicking someone.",
+    "Do not copy phrases verbatim from examples; match rhythm and structure only.",
+    "Follow the global prose rules in the base prompt (130-char sentences, no semicolons/em-dashes, contractions, lumpy rhythm).",
+    "Use short code or `inline code` when it clarifies the fix.",
+    "Use mixed sentence length; explain the why briefly when useful.",
+    "Open with actionable guidance (You can…, Try…, Use…)."
+  ],
+  "exemplars": [
+    "You need assign by mask for `8:30` and `MultiIndex`:\n\n```\n#simplier set MutiIndex\ndf['Date'] = pd.to_datetime(df['Date'])\ndf['hour'] = pd.to_datetime(df['hour'], format='%H:%M:%S')\n\ndf = df.set_index(['Symbol', 'Date'])\n\n```\n\n```\nmask = df['hour'].dt.strftime('%H:%M').eq('08:30') &\n       (df.index == ('SPXW 250715C06310000', pd.Timestamp('2025-07-14')))\n\ndf.loc[mask, 'day_high'] = df.loc[('SPXW 250715C06310000', '2025-07-14')]['high'].max()\n\n```\n\n```\nprint (df)\n\n                                 open  high   low  close  volume  \\\nSymbol               Date\nSPXW 250715C06310000 2025-07-14  2.74  2.87  2.60   2.65      14\n                     2025-07-14  2.80  2.80  2.50   2.53      61\n        …",
+    "Use `Series.map` and `Series.fillna`:\n\n```\n# Building...\ndf['cat'] = df['val'].map(dict(zip(MODES, CATS))).fillna('transient')\n\n```\n\nTimings for 1.4M rows:\n\n```\n# The data to be categorized\ndf = pd.DataFrame(data=[-3, 1.99, 0, 3, 9, 12, 15, 17,\n                        24.9999999,\n                        25, 25.000000001, 34, 40-1e-13, 40] * 100000,\ncolumns=['val'])\n\nIn [12]: %%timeit\n    ...: df['cat'] = df['val'].map(dict(zip(MODES, CATS))).fillna('transient')\n    ...:\n93.9 ms ± 3.69 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)\n\nIn [13]: %%timeit\n    ...: df['cat'] = df['val'].replace(dict(zip(MODES, CATS)))\n    ...: c_ = ~df['cat'].isin(CATS)\n    ...: df.loc[c_, 'cat'] = 'transi…",
+    "Use `GroupBy.mean` by consecutive values created by compared `Series.shift`ed values with `Series.cumsum`, last remove first level and get original order of columns by `DataFrame.reindex`:\n\n```\nout =(df.groupby([df['C2'].ne(df['C2'].shift()).cumsum(),'C2'],sort=False)['C1']\n        .mean()\n        .droplevel(0)\n        .reset_index()\n        .reindex(df.columns, axis=1))\nprint (out)\n          C1  C2\n0  15.000000  10\n1  30.000000  16\n2   5.500000  23\n3   4.666667  10\n\n```\n\nHow it working:\n\n```\nprint (df.assign(compared=df['C2'].ne(df['C2'].shift()),\n                 cumsum=df['C2'].ne(df['C2'].shift()).cumsum()))\n   C1  C2  compared  cumsum\n0  10  10      True       1\n1  20  10     False     …"
+  ]
+}
